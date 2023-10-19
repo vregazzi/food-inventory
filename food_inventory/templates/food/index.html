@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Home</title>
+</head>
+
+<body>
+    <h1>Food Inventory</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <button style="height:120px;width:250px" type="submit" name="Inventory">Inventory</button>
+        <button style="height:120px;width:250px" type="submit" name="Shopping List">Shopping List</button>
+        <p></p>
+        <button style="height:120px;width:250px" type="submit" name="Cook">Cook</button>
+    </form>
+</body>
+
+</html>
