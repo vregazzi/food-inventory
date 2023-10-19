@@ -1,8 +1,6 @@
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 
-from food_inventory.forms import ProductIdForm
-
 
 def home_view(request: HttpRequest):
     if request.method == 'POST':
