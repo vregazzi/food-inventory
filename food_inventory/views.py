@@ -1,7 +1,6 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 
-from food_inventory.food import create_ingredient
 from food_inventory.forms import AddIngredientForm
 from food_inventory.models import Ingredient, Recipe
 
