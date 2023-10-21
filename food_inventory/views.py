@@ -2,7 +2,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 
 from food_inventory.forms import (AddIngredientForm, AddRecipeForm,
-                                  EditIngredientForm)
+                                  EditIngredientForm, MakeShoppingListForm)
 from food_inventory.models import Ingredient, Recipe
 
 
@@ -39,7 +39,26 @@ def ingredients_view(request: HttpRequest):
 
 
 def shopping_list_view(request: HttpRequest) -> HttpResponse:
-    return render(request, 'food/shopping_list.html')
+    if request.method == "POST":
+        form = MakeShoppingListForm(request.POST)
+        new_form = MakeShoppingListForm()
+        recipe_obj = Recipe.objects.get(name=form.data["recipe"])
+        needed_ingredients = dict(recipe_obj.ingredients)
+        shopping_list: dict[str, int] = {}
+
+        for ingredient in needed_ingredients:
+            needed_quantity = needed_ingredients[ingredient] * int(form.data["quantity"])
+            current_quantity = Ingredient.objects.get(name=ingredient).quantity
+            if needed_quantity > current_quantity:
+                shopping_list[ingredient] = needed_quantity - current_quantity
+
+        if len(shopping_list) == 0:
+            shopping_list["No ingredients needed!"] = 0
+
+        return render(request, 'food/shopping_list.html', {'shopping_list': shopping_list, "form": new_form})
+    else:
+        form = MakeShoppingListForm()
+    return render(request, 'food/shopping_list.html', {"form": form})
 
 
 def recipes_view(request: HttpRequest) -> HttpResponse:

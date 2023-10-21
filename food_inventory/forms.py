@@ -1,5 +1,7 @@
 from django import forms
 
+from food_inventory.models import Recipe
+
 
 class EditIngredientForm(forms.Form):
     calories = forms.IntegerField(
@@ -90,6 +92,17 @@ class AddRecipeForm(forms.Form):
             )
         )
     servings = forms.IntegerField(
+        required=True,
+        widget=forms.NumberInput(
+            attrs={'size': 50}
+            )
+        )
+
+
+class MakeShoppingListForm(forms.Form):
+    names = Recipe.objects.values_list('name', flat=True)
+    recipe = forms.ChoiceField(choices=[(name, name) for name in names])
+    quantity = forms.IntegerField(
         required=True,
         widget=forms.NumberInput(
             attrs={'size': 50}
