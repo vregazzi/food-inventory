@@ -17,11 +17,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from food_inventory.views import home_view, inventory_view, shopping_list_view
+from food_inventory.views import (home_view, ingredient_detail_view,
+                                  ingredients_view, recipe_detail_view,
+                                  recipes_view, shopping_list_view)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name='home'),  # type: ignore
-    path('inventory/', inventory_view, name='inventory'),
+    path('ingredients/', ingredients_view, name='ingredients'),
+    path('ingredients/<str:ingredient_id>/', ingredient_detail_view, name='ingredient_detail'),
     path('shopping_list/', shopping_list_view, name='shopping_list'),
+    path('recipes/', recipes_view, name='recipes'),
+    path('recipes/<str:recipe_id>/', recipe_detail_view, name='recipe_detail')
 ]

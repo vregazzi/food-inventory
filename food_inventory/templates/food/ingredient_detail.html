@@ -1,0 +1,12 @@
+<html lang="en-US">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Ingredients</title>
+</head>
+
+<body>
+    <h1><a href="{% url 'home' %}">Home</a> /
+        <a href="{% url 'ingredients' %}">Ingredients</a> /
+        <a href="{% url 'ingredients' %}{{ingredient.name}}">{{ ingredient.name }}</a>
+    </h1>

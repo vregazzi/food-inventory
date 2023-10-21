@@ -7,13 +7,15 @@
 </head>
 
 <body>
-    <h1>Food Inventory</h1>
+    <h1>
+        <a href="{% url 'home' %}">Home</a>
+    </h1>
     <form method="POST">
         {% csrf_token %}
-        <button style="height:120px;width:250px" type="submit" name="Inventory">Inventory</button>
-        <button style="height:120px;width:250px" type="submit" name="Shopping List">Shopping List</button>
+        <button style="height:120px;width:250px" type="submit" name="ingredients">Ingredients</button>&emsp;
+        <button style="height:120px;width:250px" type="submit" name="Recipes">Recipes</button>
         <p></p>
-        <button style="height:120px;width:250px" type="submit" name="Cook">Cook</button>
+        <button style="height:120px;width:250px" type="submit" name="Shopping List">Shopping List</button>
     </form>
 </body>
 

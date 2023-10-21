@@ -1,0 +1,43 @@
+<html lang="en-US">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Ingredients</title>
+</head>
+
+<body>
+    <h1><a href="{% url 'home' %}">Home</a> /
+        <a href="{% url 'ingredients' %}">Ingredients</a>
+    </h1>
+    <table style="font-size:larger;">
+        {% for ingredient in ingredients %}
+        <tr>
+            <td><a href="{% url 'ingredients' %}{{ingredient.name}}">{{ingredient.name}}</a>&emsp;&emsp;&emsp;&emsp;
+            </td>
+            <td style="text-align: right;">
+                {{ingredient.quantity}}&emsp;
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% block content %}
+    <div class="form_style">
+        <h2>Add Ingredient</h2>
+        <form method="post">
+            {% csrf_token %}
+            <table>{{ form.as_table }}</table>
+            <button style="height:100px;width:300px" type="newIngredient">Add Ingredient</button>
+        </form>
+        <style type="text/css" media="screen">
+            .form_style {
+                position: absolute;
+                right: 5%;
+                top: 5%;
+            }
+        </style>
+        {% endblock %}
+    </div>
+</body>
+
+</html>
