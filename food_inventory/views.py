@@ -1,7 +1,8 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 
-from food_inventory.forms import AddIngredientForm, EditIngredientForm
+from food_inventory.forms import (AddIngredientForm, AddRecipeForm,
+                                  EditIngredientForm)
 from food_inventory.models import Ingredient, Recipe
 
 
@@ -42,8 +43,18 @@ def shopping_list_view(request: HttpRequest) -> HttpResponse:
 
 
 def recipes_view(request: HttpRequest) -> HttpResponse:
-    recipes = Recipe.objects.all()
-    return render(request, 'food/recipes.html', {'recipes': recipes})
+    if request.method == "POST":
+        form = AddRecipeForm(request.POST)
+        Recipe.objects.create(
+            name=form.data["name"],
+            ingredients=form.data["ingredients"],
+            servings=form.data["servings"],
+            )
+        return redirect("recipes")
+    else:
+        form = AddRecipeForm()
+        recipes = Recipe.objects.all()
+        return render(request, 'food/recipes.html', {'recipes': recipes, "form": form})
 
 
 def ingredient_detail_view(request: HttpRequest, ingredient_id: str) -> HttpResponse:
@@ -75,4 +86,16 @@ def ingredient_detail_view(request: HttpRequest, ingredient_id: str) -> HttpResp
 
 def recipe_detail_view(request: HttpRequest, recipe_id: str) -> HttpResponse:
     recipe = Recipe.objects.get(name=recipe_id)
-    return render(request, 'food/recipe_detail.html', {'recipe': recipe})
+    if request.method == "POST":
+        if "delete" in request.POST:
+            recipe.delete()
+            return redirect("recipes")
+        elif "increment" in request.POST:
+            recipe.servings += 1
+            recipe.save()
+        elif "decrement" in request.POST:
+            recipe.servings -= 1
+            recipe.save()
+        return redirect("recipe_detail", recipe_id=recipe_id)
+    else:
+        return render(request, 'food/recipe_detail.html', {'recipe': recipe})

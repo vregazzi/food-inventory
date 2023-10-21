@@ -68,3 +68,30 @@ class AddIngredientForm(forms.Form):
             attrs={'size': 50}
             )
         )
+
+
+class AddRecipeForm(forms.Form):
+    name = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'size': 20,
+                'autofocus': True,
+                }
+            )
+        )
+    ingredients = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'size': 20,
+                'autofocus': True,
+                }
+            )
+        )
+    servings = forms.IntegerField(
+        required=True,
+        widget=forms.NumberInput(
+            attrs={'size': 50}
+            )
+        )

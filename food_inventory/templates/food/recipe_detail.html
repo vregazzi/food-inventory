@@ -19,26 +19,30 @@
                 {{ recipe.servings }}
             </td>
         </tr>
-        <tr>
-            <td style="text-align: right;">
-                Ingredients:&emsp;
-            </td>
-            <td>
-                {% for ingredient in recipe.ingredients %}
-                <a href="{% url 'ingredients' %}{{ingredient.name}}">{{ingredient.name}}</a>
-                {% if not forloop.last %}, {% endif %}
-                {% endfor %}
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: right;">
-                Ingredients:&emsp;
-            </td>
-            <td>
-                {% for ingredient in recipe.ingredients %}
-                <p>{{ingredient}}: {{ingredien }}</p>
-                {% endfor %}
-            </td>
-        </tr>
+    </table>
+    <br>
+    <table style="font-size:larger;">
+        <thead>
+            <tr>
+                <th>Ingredients</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ingredient, quantity in recipe.ingredients.items %}
+            <tr>
+                <td style="text-align: left;">{{ingredient}}</td>
+                <td style="text-align: right;">{{quantity}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <form method="POST" style="font-size:larger;">
+        {% csrf_token %}
+        <button style="height:120px;width:120px" type="submit" name="increment">+</button>&emsp;
+        <button style="height:120px;width:120px" type="submit" name="decrement">-</button>
+        <br><br>
+        <button style="height:120px;width:260px" type="submit" name="delete">Delete</button>
+    </form>
+
 
 </body>

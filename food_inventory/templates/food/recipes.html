@@ -12,12 +12,27 @@
         <tr>
             <td><a href="{% url 'recipes' %}{{recipe.name}}">{{recipe.name}}</a>&emsp;&emsp;&emsp;&emsp;
             </td>
-            <td style="text-align: right;">
-                {{recipe.servings}}&emsp;
-            </td>
         </tr>
         {% endfor %}
     </table>
+    {% block content %}
+    <div class="form_style">
+        <h2>Add Recipe</h2>
+        <form method="post">
+            {% csrf_token %}
+            <table>{{ form.as_table }}</table>
+            <button style="height:100px;width:300px" type="newRecipe">Add Recipe</button>
+        </form>
+        <style type="text/css" media="screen">
+            .form_style {
+                position: absolute;
+                right: 5%;
+                top: 5%;
+            }
+        </style>
+        {% endblock %}
+    </div>
+
 </body>
 
 </html>
