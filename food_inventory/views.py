@@ -1,7 +1,7 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 
-from food_inventory.forms import AddIngredientForm
+from food_inventory.forms import AddIngredientForm, EditIngredientForm
 from food_inventory.models import Ingredient, Recipe
 
 
@@ -48,7 +48,29 @@ def recipes_view(request: HttpRequest) -> HttpResponse:
 
 def ingredient_detail_view(request: HttpRequest, ingredient_id: str) -> HttpResponse:
     ingredient = Ingredient.objects.get(name=ingredient_id)
-    return render(request, 'food/ingredient_detail.html', {'ingredient': ingredient})
+    if request.method == "POST":
+        if "delete" in request.POST:
+            ingredient.delete()
+            return redirect("ingredients")
+        elif "increment" in request.POST:
+            ingredient.quantity += 1
+            ingredient.save()
+            return redirect("ingredient_detail", ingredient_id=ingredient_id)
+        elif "decrement" in request.POST:
+            ingredient.quantity -= 1
+            ingredient.save()
+            return redirect("ingredient_detail", ingredient_id=ingredient_id)
+        else:
+            form = EditIngredientForm(request.POST)
+            ingredient.calories = form.data["calories"]
+            ingredient.fat = form.data["fat"]
+            ingredient.carbohydrates = form.data["carbohydrates"]
+            ingredient.protein = form.data["protein"]
+            ingredient.save()
+            return redirect("ingredient_detail", ingredient_id=ingredient_id)
+    else:
+        form = EditIngredientForm()
+        return render(request, 'food/ingredient_detail.html', {'ingredient': ingredient, "form": form})
 
 
 def recipe_detail_view(request: HttpRequest, recipe_id: str) -> HttpResponse:

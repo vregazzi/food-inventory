@@ -10,3 +10,66 @@
         <a href="{% url 'ingredients' %}">Ingredients</a> /
         <a href="{% url 'ingredients' %}{{ingredient.name}}">{{ ingredient.name }}</a>
     </h1>
+
+
+    <table style="font-size:larger;">
+        <tr>
+            <td>Calories:&emsp;&emsp;&emsp;&emsp;</td>
+            <td style="text-align: right;">
+                {{ingredient.calories}}&emsp;
+            </td>
+        </tr>
+        <tr>
+            <td>Fat:&emsp;&emsp;&emsp;&emsp;
+            </td>
+            <td style="text-align: right;">
+                {{ingredient.fat}}&emsp;
+            </td>
+        </tr>
+        <tr>
+            <td>Carbs:&emsp;&emsp;&emsp;&emsp;</td>
+            <td style="text-align: right;">
+                {{ingredient.carbohydrates}}&emsp;
+            </td>
+        </tr>
+        <tr>
+            <td>Protein:&emsp;&emsp;&emsp;&emsp;</td>
+            <td style="text-align: right;">
+                {{ingredient.protein}}&emsp;
+            </td>
+        </tr>
+        <tr>
+            <td>Quantity:&emsp;&emsp;&emsp;&emsp;
+            </td>
+            <td style="text-align: right;">
+                {{ingredient.quantity}}&emsp;
+            </td>
+        </tr>
+    </table>
+    <br><br>
+    <form method="POST" style="font-size:larger;">
+        {% csrf_token %}
+        <button style="height:120px;width:120px" type="submit" name="increment">+</button>&emsp;
+        <button style="height:120px;width:120px" type="submit" name="decrement">-</button>
+        <br><br>
+        <button style="height:120px;width:260px" type="submit" name="delete">Delete</button>
+    </form>
+    {% block content %}
+    <div class="form_style">
+        <h2>Edit Ingredient</h2>
+        <form method="post">
+            {% csrf_token %}
+            <table>{{ form.as_table }}</table>
+            <button style="height:100px;width:300px" type="editIngredient">Edit Ingredient</button>
+        </form>
+        <style type="text/css" media="screen">
+            .form_style {
+                position: absolute;
+                right: 5%;
+                top: 5%;
+            }
+        </style>
+        {% endblock %}
+    </div>
+
+</body>
